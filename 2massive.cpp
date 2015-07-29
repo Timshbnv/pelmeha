@@ -1,7 +1,7 @@
 #include "TXLib.h"
 #include "Personages.h"
 
-enum { WALL = 'X', SPACE = '-', WIN = '!', KNIFE = 4 };
+enum { WALL = 'X', SPACE = '-', WIN = '!'};
 
 const int SIZEB = 30;
 const int MASSSIZE = 24;
@@ -12,11 +12,17 @@ const int MASSLEVEL = 2;
 #define YM y / SIZEB
 
 /*-----------------------------------------------PROTOTYPES----------------------------------------------------------*/
+
+// typedef char [MASSSIZE][MASSSIZE] map_layer_t;
+// typedef map_layer_t [MASSLAYER] map_t;
+// void ReadKarta (map_t map, int lvl);
+// void DrawKarta (int x, int y, int dx, int dy, map_layer_t map_layer);
+
 void block (int x, int y, COLORREF color = TX_WHITE);
 void ReadKarta (char map [MASSLAYER][MASSSIZE][MASSSIZE], int lvl);
 void DrawKarta (int x, int y, int dx, int dy, char map[MASSLAYER][MASSSIZE][MASSSIZE], int layer);
 void MovePelByXY (int* x, int* y, int* vx, int* vy, char map [MASSLAYER][MASSSIZE][MASSSIZE], int layer);
-int MovingOn(char allMap [MASSLAYER][MASSSIZE][MASSSIZE], int layer);
+int MovingOn(char allMap [MASSLAYER][MASSSIZE][MASSSIZE], int layer, int* pos, int x, int y);
 
 //choosing color for portals here:
 const COLORREF MEOW_COLOR = TX_BLUE;
@@ -37,10 +43,25 @@ int main()
 
             ReadKarta (map, lvl);
             int layer = 0;
+            int pos = 1;
+            int x = 360;
+            int y = 150;
             txBegin();
             while (true)
              {
-                int whrgo = MovingOn (map, layer);
+                 // MovingOn (map[layer], &pos, x, y);
+                int whrgo = MovingOn (map, layer, &pos, x, y);
+
+
+                switch (pos)
+                {
+                    case 1: x = SIZEB * MASSSIZE / 2;           y = SIZEB * MASSSIZE - SIZEB * 1.5; break;
+                    case 2: x = 1.5 * SIZEB;                    y = SIZEB * MASSSIZE / 2; break;
+                    case 3: x = SIZEB * MASSSIZE / 2;           y = SIZEB + SIZEB * 0.5; break;
+                    case 4: x = SIZEB * MASSSIZE - SIZEB * 1.5; y = SIZEB * MASSSIZE / 2; break;
+
+                }
+
 
                 if (whrgo == 0) break;
 
@@ -56,13 +77,12 @@ int main()
 
     }
 
-int MovingOn(char allMap [MASSLAYER][MASSSIZE][MASSSIZE], int layer)
+int MovingOn (/* const */char allMap [MASSLAYER][MASSSIZE][MASSSIZE], int layer, int* pos, int x, int y)
     {
 
-    int x = 360;
-    int y = 120;
-    int vx = 4;
-    int vy = 4;
+
+    int vx = 0;
+    int vy = 0;
     int t = 0;
 
 
@@ -76,12 +96,6 @@ int MovingOn(char allMap [MASSLAYER][MASSSIZE][MASSSIZE], int layer)
          txSetFillColor (MEOW_COLOR);
          txClear();
 
-
-         //SaveX = x / SIZEB * SIZEB + SIZEB / 2;
-         //SaveY = y / SIZEB * SIZEB + SIZEB / 2;
-
-
-
          DrawKarta (0, 0, 1 * SIZEB, 1 * SIZEB, allMap, layer);
 
 
@@ -89,25 +103,28 @@ int MovingOn(char allMap [MASSLAYER][MASSSIZE][MASSSIZE], int layer)
 
          pelmen (x, y, 15, 6, 6, t % 15, t % 15);
 
+         if      (allMap [layer][YM][XM] == 'w') *pos = 1;
+         else if (allMap [layer][YM][XM] == 'v') *pos = 2;
+         else if (allMap [layer][YM][XM] == 'y') *pos = 3;
+         else if (allMap [layer][YM][XM] == 'z') *pos = 4;
+
+
+
+
+
+
          if (allMap [layer][YM][XM] == WIN) return 0;
          if (allMap [layer][YM][XM] == 'A') return 1;
          if (allMap [layer][YM][XM] == 'B') return 2;
          if (allMap [layer][YM][XM] == 'C') return 3;
 
-
-
-
-
-
          t++;
          txSleep (30);
-
-
         }
 
 
 
-    txEnd;
+    txEnd();
     }
 
 void ReadKarta (char map [MASSLAYER][MASSSIZE][MASSSIZE], int lvl)
@@ -115,7 +132,7 @@ void ReadKarta (char map [MASSLAYER][MASSSIZE][MASSSIZE], int lvl)
 
 
     char fname [50] = "";
-    sprintf (fname, "mapLvl%d.txt", lvl);
+    sprintf (fname, "mapLvl%d.txt", lvl);  // curr dir
 
     FILE* f = fopen (fname, "r");
     if (!f) { printf ("%s: error: cannot open level file\n", fname); return; }
@@ -145,8 +162,8 @@ void ReadKarta (char map [MASSLAYER][MASSSIZE][MASSSIZE], int lvl)
 
 
 
-
                 }
+
 
             }
         }
@@ -163,6 +180,15 @@ void DrawKarta (int x0, int y0, int dx, int dy, char map [MASSLAYER][MASSSIZE][M
             if (map [layer][y][x] == SPACE) block (x0 + x * dx, y0 + y * dy, TX_BLACK);
             if (map [layer][y][x] == WALL)  block (x0 + x * dx, y0 + y * dy, TX_WHITE);
             if (map [layer][y][x] == WIN)   block (x0 + x * dx, y0 + y * dy, TX_LIGHTBLUE);
+
+            if (map [layer][y][x] == 'w' ||
+                map [layer][y][x] == 'v'  ||
+                map [layer][y][x] == 'y'  ||
+                map [layer][y][x] == 'z') block (x0 + x * dx, y0 + y * dy, TX_BLACK);
+
+
+
+
             /*if (map [layer][y][x] == 'A')   block (x0 + x * dx, y0 + y * dy, TX_ORANGE);
             if (map [layer][y][x] == 'B')   block (x0 + x * dx, y0 + y * dy, TX_PINK);
             if (map [layer][y][x] == 'C')   block (x0 + x * dx, y0 + y * dy, TX_YELLOW);

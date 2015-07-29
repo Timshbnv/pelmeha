@@ -9,9 +9,9 @@ X-X------------------X-X
 X-X------------------X-X
 X-X----------XXX-----X-X
 X-X------------X-----X-X
-X--------------X-------X
-X--------------X-------X
 X-X------------X-----X-X
+X--------------X-------X
+X--------------X-------X
 X-X------------------X-X
 X-X------------------X-X
 X-X------------------X-X
@@ -21,12 +21,12 @@ X-X------------------X-X
 X-X------------------X-X
 X-X------------------X-X
 X-XXXXXXXXX--XXXXXXXXX-X
-X----------------------X
-XXXXXXXXXXXBXXXXXXXXXXXX
+X----------yy----------X
+XXXXXXXXXXXBBXXXXXXXXXXX
 
 
 XXXXXXXXXXXAAXXXXXXXXXXX
-X----------------------X
+X----------ww----------X
 X-XXXXXXXXX--XXXXXXXXX-X
 X-X------------------X-X
 X-X------------------X-X
@@ -35,9 +35,9 @@ X-X------------------X-X
 X-X------------------X-X
 X-X------------------X-X
 X-X------------------X-X
-X----------XXX---------X
-X----------X-X---------X
-X-X------------------X-X
+X-X--------XXX-------X-X
+X----------X-X--------vC
+X---------------------vC
 X-X------------------X-X
 X-X-----XXXXXXXXX----X-X
 X-X------------------X-X
@@ -48,9 +48,9 @@ X-X------------------X-X
 X-X------------------X-X
 X-XXXXXXXXX--XXXXXXXXX-X
 X----------------------X
-XXXXXXXXXXXCCXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXX
 
-XXXXXXXXXXXBBXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXX
 X----------------------X
 X-XXXXXXXXX--XXXXXXXXX-X
 X-X------------------X-X
@@ -60,9 +60,9 @@ X-X------------------X-X
 X-X------------------X-X
 X-X-----XXX--XXX-----X-X
 X-X-----X------X-----X-X
-X-------X-XXXX-X-------X
-X-------X-X--X-X-------X
-X-X-----X------X-----X-X
+X-X-----X-XXXX-X-----X-X
+Bz------X-X--X-X-------X
+Bz------X------X-------X
 X-X-----XXXXXXXX-----X-X
 X-X------------------X-X
 X-X------------------X-X
